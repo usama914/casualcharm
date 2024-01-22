@@ -1,0 +1,1 @@
+export const BASE_URL = 'https://casual-charm-server-main.vercel.app/api';

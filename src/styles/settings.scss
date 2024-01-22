@@ -1,0 +1,23 @@
+/**
+ * src/styles/settings.scss
+ *
+ * Configures SASS variables and Vuetify overwrites
+ */
+
+// https://vuetifyjs.com/features/sass-variables/`
+// @use 'vuetify/settings' with (
+//   $color-pack: false
+// );
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;300;400;500;600;700;800&display=swap');
+
+body {
+    font-family: 'Raleway', sans-serif;
+    text-align: justify;
+}
+
+* {
+    --primary-color-100: #9EC8B9;
+    --primary-color-200: #5C8374;
+    --primary-color-300: #1B4242;
+    --primary-color-400: #092635;
+}
