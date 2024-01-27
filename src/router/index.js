@@ -12,6 +12,18 @@ const routes = [
   {
     path: '/details/:id',
     component: () => import('@/Pages/post-details/indexPage.vue')
+  },
+  {
+    path: '/about',
+    component: () => import('@/Pages/about/aboutPage.vue')
+  },
+  {
+    path: '/faqs',
+    component: () => import('@/Pages/faq/faqPage.vue')
+  },
+  {
+    path: '/contact',
+    component: () => import('@/Pages/contact/contactPage.vue')
   }
 ];
 
