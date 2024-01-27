@@ -7,16 +7,17 @@
                     <div class="post-image mt-3">
                         <img :src="postDetails?.post.imageUrl">
                     </div>
-                    <div class="d-flex justify-space-between px-4 mt-4 mb-1">
+                    <div class="d-flex justify-space-between mt-4 mb-1">
                         <div class=" d-flex justify-self-end align-center">
-                            <img class="me-1" style="width: 15px;" src="../../assets/postcard/views.png" alt="">
-                            <span class="subheading me-2 text-family-secondary">256</span>
-                            <!-- <span class="me-1">·</span> -->
+                            <img class="mr-2" style="width: 15px;" src="../../assets/postcard/views.png" alt="">
+                            <span class="subheading me-2 text-family-secondary text-caption">256</span>
+                            <!-- <span class="me-1">·</span>
                             <img class="me-1" style="width: 15px;" src="../../assets/postcard/share.png" alt="">
-                            <span class="subheading text-family-secondary">45</span>
+                            <span class="subheading text-family-secondary">45</span> -->
                         </div>
                         <div class="">
-                            <span class="subheading text-family-secondary">{{ formatCreatedAt(postDetails?.post.createdAt)
+                            <span class="subheading text-family-secondary text-caption">{{
+                                formatCreatedAt(postDetails?.post.createdAt)
                             }}</span>
                         </div>
                     </div>
@@ -129,7 +130,7 @@ onMounted(async () => {
 
 .v-img,
 img {
-    border-radius: 15px;
+    border-radius: 10px;
     height: 100%;
     width: 100%;
 }

@@ -6,15 +6,44 @@
         </div>
         <v-col cols="12" sm="6">
             <div class="d-flex ">
-
-                <v-text-field label="Enter your email address here" persistent-hint variant="outlined"></v-text-field>
-                <v-btn class="ml-3" variant="outlined" width="120" height="55">
+                <div class="" style="width: 100%;">
+                    <v-text-field label="Enter your email address here" persistent-hint variant="outlined"
+                        v-model="email"></v-text-field>
+                    <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
+                </div>
+                <v-btn class="ml-3" variant="outlined" width="120" height="55" @click="subscribe">
                     Subscribe
                 </v-btn>
             </div>
         </v-col>
     </div>
 </template>
+<script setup>
+import { ref } from 'vue'
+import axios from 'axios';
+import { BASE_URL } from '@/baseUrl';
+
+const email = ref('')
+const errorMessage = ref('')
+const subscribe = async () => {
+    if (!email.value) {
+        errorMessage.value = "Please enter email first"
+    }
+    try {
+        const response = await axios.post(`${BASE_URL}/subscriber/add-subscriber`, {
+            email: email.value
+        })
+        errorMessage.value = '';
+        const subscribedSuccessfuly = response.data;
+        console.log("succesful", subscribedSuccessfuly)
+    }
+    catch (e) {
+        console.error(e)
+    } finally {
+        email.value = ''
+    }
+}
+</script>
 
 <style scoped>
 .news-letter {
@@ -26,5 +55,9 @@
     align-items: center;
     justify-content: end;
     gap: 2rem;
+}
+
+.error-message {
+    font-size: small;
 }
 </style>
