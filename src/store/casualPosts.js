@@ -6,10 +6,10 @@ import axios from 'axios'
 export const allCasualPosts = defineStore({
   id: "casualposts",
   state: () => ({
-    casualPosts: []
+    casualPosts: null
   }),
   getters: {
-    getPosts: (state) => state.casualPosts.posts
+    getCasualPosts: (state) => state.casualPosts?.posts
   },
   actions: {
     async fetchAllCasualPosts() {

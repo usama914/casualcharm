@@ -48,6 +48,7 @@ const posts = useTestStore()
 .post-cards {
     display: flex;
     justify-content: space-between;
+    flex-wrap: wrap;
 }
 
 .v-img {

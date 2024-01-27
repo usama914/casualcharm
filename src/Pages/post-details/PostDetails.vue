@@ -4,13 +4,27 @@
             <v-container class="fashion-cards">
                 <div class="post-info">
                     <h4 class="text-h5 font-weight-bold mb-4">{{ postDetails?.post.title }}</h4>
-                    <v-breadcrumbs class="mb-2" :items="['Foo', 'Bar', 'Fizz']"></v-breadcrumbs>
-                    <p>{{ postDetails?.post.createdAt }}</p>
                     <div class="post-image mt-3">
                         <img :src="postDetails?.post.imageUrl">
                     </div>
-                    <div class="post-description mt-2">
-                        <p>{{ postDetails?.post.description }}</p>
+                    <div class="d-flex justify-space-between px-4 mt-4 mb-1">
+                        <div class=" d-flex justify-self-end align-center">
+                            <img class="me-1" style="width: 15px;" src="../../assets/postcard/views.png" alt="">
+                            <span class="subheading me-2 text-family-secondary">256</span>
+                            <!-- <span class="me-1">·</span> -->
+                            <img class="me-1" style="width: 15px;" src="../../assets/postcard/share.png" alt="">
+                            <span class="subheading text-family-secondary">45</span>
+                        </div>
+                        <div class="">
+                            <span class="subheading text-family-secondary">{{ formatCreatedAt(postDetails?.post.createdAt)
+                            }}</span>
+                        </div>
+                    </div>
+                    <div class="post-description mt-10">
+                        <div class="" v-for="det in  postDetails?.post.descriptions" :key="det._id">
+                            <h4 class="text-h6 mb-2">{{ det.title }}</h4>
+                            <p class="mb-4 text-body-2 font-weight-light">{{ det.details }}</p>
+                        </div>
                     </div>
                 </div>
             </v-container>
@@ -23,7 +37,6 @@
                                 <v-img src="https://i.pinimg.com/736x/bb/c5/a9/bbc5a946ed500f669d04e3ee3d837228.jpg"
                                     height="88" cover></v-img>
                             </v-col>
-
                             <v-col cols="12" md="9">
                                 <h4 class="text-h5 font-weight-bold mb-4">Your Privacy</h4>
                                 <p class="mb-4">
@@ -38,19 +51,24 @@
             </div>
         </div>
     </v-container>
-    <!-- {{ postDetails }} -->
 </template>
 <script setup>
 import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { BASE_URL } from '@/baseUrl';
+import moment from 'moment';
 import axios from 'axios';
 
 // const route = useRoute();
 const postId = ref(null);
 const postDetails = ref(null);
+const postDescription = ref(null);
 const loading = ref(true);
 const error = ref(false);
+
+const formatCreatedAt = (createdAt) => {
+    return moment(createdAt).format('MMMM DD, YYYY [at] h:mm A');
+};
 
 onMounted(async () => {
     const route = useRoute();
@@ -61,6 +79,7 @@ onMounted(async () => {
         const response = await axios.get(`${BASE_URL}/shared/get-post-details/${postId.value}`);
         console.log("prodcut details :", response.data)
         postDetails.value = response.data; // Assuming the response contains the post details
+        postDescription.value = response.data.post; // Assuming the response contains the post details
         loading.value = false;
     } catch (e) {
         console.error('Error fetching post details:', e);

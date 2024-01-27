@@ -1,6 +1,5 @@
 <template>
     <v-container>
-
         <div class="categories mt-10">
             <div class="fashion-cards">
                 <div class="card" v-for="category in categoriesData.categories" :key="category._id">
@@ -21,12 +20,13 @@
             </div>
             <v-divider vertical></v-divider>
             <div class="ads">
-                <v-sheet class="sheet-card text-body-2 mx-auto" max-width="450" v-for="sheet in 4" :key="sheet">
+                <v-sheet class="sheet-card text-body-2 mx-auto" max-width="450" v-for="sheet in 2" :key="sheet">
                     <v-container fluid>
                         <v-row>
-                            <v-col cols="12" md="3">
-                                <v-img src="https://i.pinimg.com/736x/bb/c5/a9/bbc5a946ed500f669d04e3ee3d837228.jpg"
-                                    height="88" cover></v-img>
+                            <v-col cols="12" md="3" class="ads-img">
+                                <v-img class="ad"
+                                    src="https://i.pinimg.com/736x/bb/c5/a9/bbc5a946ed500f669d04e3ee3d837228.jpg"
+                                    height="100" cover></v-img>
                             </v-col>
 
                             <v-col cols="12" md="9">
@@ -64,6 +64,36 @@ onMounted(async () => {
 .categories {
     display: flex;
     align-items: flex-start;
+    /* border: 1px solid; */
+}
+
+@media (max-width:1280px) {
+    .categories {
+        flex-flow: column;
+        width: 100%;
+    }
+
+    .fashion-cards,
+    .ads {
+        width: 100% !important;
+    }
+
+    .fashion-cards {
+        justify-content: center !important;
+    }
+
+}
+
+@media (max-width:970px) {
+
+    .ads-img {
+        max-height: 300px !important;
+    }
+
+    .ad {
+        height: 100% !important;
+        /* border: 2px solid red; */
+    }
 }
 
 .fashion-cards {
@@ -73,7 +103,6 @@ onMounted(async () => {
     gap: 10px;
     flex-wrap: wrap;
     width: 70%;
-    /* border: 1px solid; */
 }
 
 .fashion-cards .cards {
@@ -85,6 +114,7 @@ onMounted(async () => {
     display: flex;
     flex-flow: column;
     gap: 5px;
+    /* border: 1px solid rebeccapurple */
 }
 
 .sheet-card:hover {
@@ -130,7 +160,7 @@ onMounted(async () => {
 }
 
 .card {
-    max-width: 300px;
+    max-width: 284px;
     width: 100%;
 }
 </style>

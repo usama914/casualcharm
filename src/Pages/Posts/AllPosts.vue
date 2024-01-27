@@ -1,27 +1,42 @@
 <template>
     <v-container>
         <div class="fashion-posts mt-10">
-            <div class="card" v-for="post in thePosts.getPosts" :key="post._id">
-                <div class="image-container mb-4">
-                    <v-img class="zoomable-image" :src="post.imageUrl" cover></v-img>
-                </div>
-                <h4 class="text-h5 font-weight-bold">
-                    <post class="title">{{ post.title }}</post>
-                </h4>
-                <v-card-text>
-                    <p class="text-caption">
-                        {{ truncateDescription(post.description, 50) }}
-                    </p>
-                </v-card-text>
+            <div class="card" v-for="post in thePosts.getCasualPosts" :key="post._id">
+                <v-card max-width="360" min-height="410" rounded="lg" class="pb-3">
+                    <router-link :to="'/details/' + post._id">
+                        <div class="image-container">
+                            <v-img class="zoomable-image" :src="post.imageUrl" cover height="300px"
+                                style="border-radius: 0px;"></v-img>
+                        </div>
+                    </router-link>
+                    <v-card-title>
+                        {{ post.title }}
+                    </v-card-title>
+                    <v-card-subtitle>
+                        {{ truncateDescription(post.descriptions[0].details, 100) }}
+                    </v-card-subtitle>
+                    <div class="d-flex justify-space-between px-4 mt-4 mb-1">
+                        <div class=" d-flex justify-self-end align-center">
+                            <img class="me-1" style="width: 15px;" src="../../assets/postcard/views.png" alt="">
+                            <span class="subheading me-2 text-family-secondary">256</span>
+                            <!-- <span class="me-1">·</span> -->
+                            <img class="me-1" style="width: 15px;" src="../../assets/postcard/share.png" alt="">
+                            <span class="subheading text-family-secondary">45</span>
+                        </div>
+                        <div class="">
+                            <span class="subheading text-family-secondary">01/01/2024</span>
+                        </div>
+                    </div>
+                </v-card>
             </div>
         </div>
     </v-container>
 </template>
 <script setup>
 import { onMounted } from 'vue'
+// Posts
 import { allCasualPosts } from '@/store/casualPosts'
 const thePosts = allCasualPosts()
-
 onMounted(async () => {
     await thePosts.fetchAllCasualPosts()
 })
@@ -69,11 +84,5 @@ const truncateDescription = (description, maxLength) => {
 .zoomable-image:hover {
     transform: scale(1.1);
     /* Change the scale factor as needed for your desired zoom level */
-}
-
-.card {
-    max-width: 300px;
-    width: 100%;
-    cursor: pointer;
 }
 </style>

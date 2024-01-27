@@ -2,7 +2,7 @@
     <v-carousel class="mt-6" height="700" cycle hide-delimiter-background show-arrows="hover">
         <v-carousel-item v-for="(slide, i) in slides" :key="i">
             <div class="carousel-imgs">
-                <img src="https://swapnilmens.com/Home_Page_Image/slider2.jpg" alt="">
+                <img src="../../assets/banner2.jpg" alt="">
             </div>
         </v-carousel-item>
     </v-carousel>
