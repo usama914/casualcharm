@@ -3,7 +3,7 @@
         <div class="categories mt-10">
             <div class="fashion-cards">
                 <div class="card" v-for="category in categoriesData.categories" :key="category._id">
-                    <div v-if="categoriesData.categories.length > 0">
+                    <div v-if="!isLoading">
                         <v-card max-width="280" class="py-2 px-2">
                             <v-img class="mb-3" height="250" :src="category.imageUrl" cover></v-img>
                             <h4 class="text-h6 font-weight-bold text-center">
@@ -12,7 +12,8 @@
                         </v-card>
                     </div>
                     <div v-else>
-                        <v-skeleton-loader :elevation="1" type="card"></v-skeleton-loader>
+                        <!-- <v-skeleton-loader type="card"></v-skeleton-loader> -->
+                        <p>loading...</p>
                     </div>
                 </div>
                 <!-- {{ categoriesData }} -->
@@ -51,10 +52,18 @@ import { useCategoriesStore } from '@/store/casualCategories'
 
 const categoriesStore = useCategoriesStore()
 const categoriesData = ref([])
+const isLoading = ref(false)
 
 onMounted(async () => {
-    await categoriesStore.fetchCategories()
-    categoriesData.value = categoriesStore.categories
+    try {
+        console.log('Setting isLoading to true');
+        isLoading.value = true;
+        await categoriesStore.fetchCategories();
+        categoriesData.value = categoriesStore.categories;
+    } finally {
+        console.log('Setting isLoading to false');
+        isLoading.value = false;
+    }
 })
 </script>
 <style scoped>

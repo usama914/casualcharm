@@ -1,7 +1,9 @@
 <template>
     <div class="popular-posts mt-5">
         <v-container>
-            <h4 class="text-h5 font-weight-bold mb-4">Popular Posts</h4>
+            <div class="text-center mb-5">
+                <h4 class=" text-h5 font-weight-bold mb-4">Popular Posts</h4>
+            </div>
             <div class="post-cards d-flex mt-10">
                 <div class="post-inside text-center" max-width="400" v-for="(post, index) in posts.posts.slice(0, 4)"
                     :key="post.id">
@@ -78,4 +80,25 @@ const posts = useTestStore()
     transform: scale(1.1);
     /* Change the scale factor as needed for your desired zoom level */
 }
+
+@media (max-width:970px) {
+
+    .popular-posts {
+        padding-inline: 2rem;
+    }
+
+    .post-cards {
+        flex-flow: column;
+        align-items: center;
+        width: 100%;
+    }
+
+    .post-inside {
+        width: 100%;
+    }
+}
+
+@media (max-width:) {}
+
+@media (max-width:) {}
 </style>

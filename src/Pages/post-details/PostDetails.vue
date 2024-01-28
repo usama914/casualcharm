@@ -9,11 +9,8 @@
                     </div>
                     <div class="d-flex justify-space-between mt-4 mb-1">
                         <div class=" d-flex justify-self-end align-center">
-                            <img class="mr-2" style="width: 15px;" src="../../assets/postcard/views.png" alt="">
+                            <i class="fa-regular fa-eye me-2"></i>
                             <span class="subheading me-2 text-family-secondary text-caption">256</span>
-                            <!-- <span class="me-1">·</span>
-                            <img class="me-1" style="width: 15px;" src="../../assets/postcard/share.png" alt="">
-                            <span class="subheading text-family-secondary">45</span> -->
                         </div>
                         <div class="">
                             <span class="subheading text-family-secondary text-caption">{{
@@ -35,7 +32,8 @@
                     <v-container fluid>
                         <v-row>
                             <v-col cols="12" md="3">
-                                <v-img src="https://i.pinimg.com/736x/bb/c5/a9/bbc5a946ed500f669d04e3ee3d837228.jpg"
+                                <v-img class="ads-img"
+                                    src="https://i.pinimg.com/736x/bb/c5/a9/bbc5a946ed500f669d04e3ee3d837228.jpg"
                                     height="88" cover></v-img>
                             </v-col>
                             <v-col cols="12" md="9">
@@ -109,6 +107,26 @@ onMounted(async () => {
     flex-wrap: wrap;
     width: 100%;
     /* border: 1px solid; */
+}
+
+@media (max-width:1080px) {
+    .categories {
+        flex-flow: column;
+        align-items: center;
+    }
+
+    .post-image {
+        max-width: 100% !important;
+    }
+
+    .v-col-12 {
+        flex: 0 0 100% !important;
+        max-width: 100% !important;
+    }
+
+    .v-img {
+        height: 300px !important;
+    }
 }
 
 .post-info {
