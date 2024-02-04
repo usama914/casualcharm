@@ -1,6 +1,9 @@
 <template>
     <v-container>
-        <div class="categories mt-10">
+        <div class="loader" v-if="isLoading">
+            <v-progress-circular indeterminate color="primary"></v-progress-circular>
+        </div>
+        <div v-else class="categories mt-10">
             <v-container class="fashion-cards">
                 <div class="post-info">
                     <h4 class="text-h5 font-weight-bold mb-4">{{ postDetails?.post.title }}</h4>
@@ -62,7 +65,7 @@ import axios from 'axios';
 const postId = ref(null);
 const postDetails = ref(null);
 const postDescription = ref(null);
-const loading = ref(true);
+const isLoading = ref(true);
 const error = ref(false);
 
 const formatCreatedAt = (createdAt) => {
@@ -79,11 +82,11 @@ onMounted(async () => {
         console.log("prodcut details :", response.data)
         postDetails.value = response.data; // Assuming the response contains the post details
         postDescription.value = response.data.post; // Assuming the response contains the post details
-        loading.value = false;
     } catch (e) {
         console.error('Error fetching post details:', e);
-        loading.value = false;
         error.value = true;
+    } finally {
+        isLoading.value = false
     }
 });
 </script>
@@ -155,5 +158,9 @@ img {
 
 .v-breadcrumbs {
     padding: 0;
+}
+
+.loader {
+    height: 80dvh !important;
 }
 </style>

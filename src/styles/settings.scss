@@ -25,3 +25,11 @@ body {
     --primary-color-300: #1B4242;
     --primary-color-400: #092635;
 }
+
+.loader {
+    /* text-align: center; */
+    height: 50vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

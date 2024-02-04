@@ -1,23 +1,18 @@
 <template>
     <v-container>
-        <div class="categories mt-10">
+        <div class="loader" v-if="isLoading">
+            <v-progress-circular indeterminate color="primary"></v-progress-circular>
+        </div>
+        <div v-else class="categories mt-10">
             <div class="fashion-cards">
                 <div class="card" v-for="category in categoriesData.categories" :key="category._id">
-                    <div v-if="!isLoading">
-                        <v-card max-width="280" class="py-2 px-2">
-                            <v-img class="mb-3" height="250" :src="category.imageUrl" cover></v-img>
-                            <h4 class="text-h6 font-weight-bold text-center">
-                                <post class="title px-5 py-5">{{ category.title }}</post>
-                            </h4>
-                        </v-card>
-                    </div>
-                    <div v-else>
-                        <!-- <v-skeleton-loader type="card"></v-skeleton-loader> -->
-                        <p>loading...</p>
-                    </div>
+                    <v-card max-width="280" class="py-2 px-2">
+                        <v-img class="mb-3" height="250" :src="category.imageUrl" cover></v-img>
+                        <h4 class="text-h6 font-weight-bold text-center">
+                            <post class="title px-5 py-5">{{ category.title }}</post>
+                        </h4>
+                    </v-card>
                 </div>
-                <!-- {{ categoriesData }} -->
-                <!-- {{ allCategories.categories }} -->
             </div>
             <v-divider vertical></v-divider>
             <div class="ads">
@@ -42,7 +37,6 @@
                     </v-container>
                 </v-sheet>
             </div>
-
         </div>
     </v-container>
 </template>
@@ -52,12 +46,11 @@ import { useCategoriesStore } from '@/store/casualCategories'
 
 const categoriesStore = useCategoriesStore()
 const categoriesData = ref([])
-const isLoading = ref(false)
+const isLoading = ref(true)
 
 onMounted(async () => {
     try {
         console.log('Setting isLoading to true');
-        isLoading.value = true;
         await categoriesStore.fetchCategories();
         categoriesData.value = categoriesStore.categories;
     } finally {
@@ -66,6 +59,7 @@ onMounted(async () => {
     }
 })
 </script>
+
 <style scoped>
 /* .sheet-card {
     border: 1px solid black;

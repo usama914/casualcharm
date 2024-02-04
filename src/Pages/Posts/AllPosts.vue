@@ -1,8 +1,15 @@
 <template>
     <v-container>
-        <div class="fashion-posts mt-10">
-            <div class="card" v-for="post in thePosts.getCasualPosts" :key="post._id">
-                <v-card max-width="360" min-height="410" rounded="lg" class="pb-3">
+        <div class="loader" v-if="isLoadingCasualPosts">
+            <v-progress-circular indeterminate color="primary"></v-progress-circular>
+        </div>
+        <!-- Loader for posts by category -->
+        <div class="loader" v-if="isLoadingPostsByCategory">
+            <v-progress-circular indeterminate color="primary"></v-progress-circular>
+        </div>
+        <div v-else class="fashion-posts mt-10">
+            <div class="card" v-for="post in displayedPosts" :key="post._id">
+                <v-card width="360" min-height="410" rounded="lg" class="pb-3">
                     <router-link :to="'/details/' + post._id">
                         <div class="image-container">
                             <v-img class="zoomable-image" :src="post.imageUrl" cover height="300px"
@@ -28,15 +35,48 @@
             </div>
         </div>
     </v-container>
+    <!-- Data succesful -->
+    <!-- {{ postsByCategory.getCategoryPosts }} -->
+    <!-- Data succesful -->
+    <!-- {{ thePosts.getCasualPosts }} -->
 </template>
 <script setup>
-import { onMounted } from 'vue'
-// Posts
-import { allCasualPosts } from '@/store/casualPosts'
-const thePosts = allCasualPosts()
+import { ref, onMounted, computed } from 'vue';
+import { allCasualPosts } from '@/store/casualPosts';
+import { postCategories } from '@/store/postsByCategories';
+
+const thePosts = allCasualPosts();
+const postsByCategory = postCategories();
+const isLoadingCasualPosts = ref(true);
+const isLoadingPostsByCategory = ref(true);
+
+// Fetch casual posts on mount
 onMounted(async () => {
-    await thePosts.fetchAllCasualPosts()
-})
+    try {
+        await thePosts.fetchAllCasualPosts();
+    } finally {
+        isLoadingCasualPosts.value = false;
+    }
+});
+
+// Fetch posts by category on mount
+onMounted(async () => {
+    try {
+        await postsByCategory.fetchSelectedCategories();
+    }
+    finally {
+        isLoadingPostsByCategory.value = false
+    }
+});
+
+// Computed property to determine which posts to display
+const displayedPosts = computed(() => {
+    // Use postsByCategories if available, otherwise fallback to casualPosts
+    return postsByCategory.getCategoryPosts?.length > 0
+        ? postsByCategory.getCategoryPosts
+        : thePosts.getCasualPosts;
+});
+
 const truncateDescription = (description, maxLength) => {
     if (description.length <= maxLength) {
         return description;
@@ -44,16 +84,15 @@ const truncateDescription = (description, maxLength) => {
         return description.slice(0, maxLength) + '...';
     }
 };
-
 </script>
 
 <style scoped>
 .fashion-posts {
     /* border: 1px solid; */
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 2.7rem;
 }
 
 .v-img {
@@ -81,5 +120,9 @@ const truncateDescription = (description, maxLength) => {
 .zoomable-image:hover {
     transform: scale(1.1);
     /* Change the scale factor as needed for your desired zoom level */
+}
+
+.loader {
+    height: 25dvh !important;
 }
 </style>

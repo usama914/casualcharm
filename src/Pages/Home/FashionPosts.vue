@@ -3,9 +3,12 @@
         <div class="text-center">
             <h1>Latest Fasion</h1>
         </div>
-        <div class="fashion-posts mt-10">
+        <div class="loader" v-if="isLoading">
+            <v-progress-circular indeterminate color="primary"></v-progress-circular>
+        </div>
+        <div v-else class="fashion-posts mt-10">
             <div class="card" v-for="post in thePosts.getCasualPosts" :key="post._id">
-                <v-card max-width="360" min-height="410" rounded="lg" class="pb-3">
+                <v-card width="360" min-height="410" rounded="lg" class="pb-3">
                     <router-link :to="'/details/' + post._id">
                         <div class="image-container">
                             <v-img class="zoomable-image" :src="post.imageUrl" cover height="300px"
@@ -33,12 +36,17 @@
     </v-container>
 </template>
 <script setup>
-import { onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 // Posts
 import { allCasualPosts } from '@/store/casualPosts'
 const thePosts = allCasualPosts()
+const isLoading = ref(true)
 onMounted(async () => {
-    await thePosts.fetchAllCasualPosts()
+    try {
+        await thePosts.fetchAllCasualPosts()
+    } finally {
+        isLoading.value = false
+    }
 })
 const truncateDescription = (description, maxLength) => {
     if (description.length <= maxLength) {
@@ -59,9 +67,9 @@ a {
 .fashion-posts {
     /* border: 1px solid; */
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 2.7rem;
 }
 
 .v-img {

@@ -1,7 +1,10 @@
 <template>
     <v-container>
-        <div class="fashion-posts my-16">
-            <div class="card" v-for="post in posts.getCategories" :key="post.id">
+        <div class="loader" v-if="isLoading">
+            <v-progress-circular indeterminate color="primary"></v-progress-circular>
+        </div>
+        <div v-else class="fashion-posts my-16">
+            <div class="card" v-for="post in posts.getCategories" :key="post._id" @click="selectedCategory(post._id)">
                 <div class="image-container">
                     <v-img class="align-end zoomable-image" :src="post.imageUrl"
                         gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)" cover>
@@ -14,18 +17,26 @@
 </template>
   
 <script setup>
-import { onMounted } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useCategoriesStore } from '@/store/casualCategories';
+const isLoading = ref(true)
 
 const posts = useCategoriesStore();
 onMounted(async () => {
-    await posts.fetchCategories()
+    try {
+        await posts.fetchCategories()
+    } finally {
+        isLoading.value = false
+    }
 })
 
-// onMounted(async () => {
-//     await categoriesStore.fetchCategories()
-//     categoriesData.value = categoriesStore.categories
-// })
+// below code is for getting the selected category data by sending the id to the pinia store.
+import { postCategories } from '@/store/postsByCategories'
+const selectedPost = postCategories()
+const selectedCategory = (cardId) => {
+    console.log("selected Card Id", cardId)
+    selectedPost.fetchSelectedCategories(cardId)
+}
 </script>
   
 <style scoped>
@@ -51,7 +62,7 @@ onMounted(async () => {
 .image-container {
     overflow: hidden;
     border-radius: 15px;
-    height: 100%;
+    height: 200px;
 }
 
 .zoomable-image {

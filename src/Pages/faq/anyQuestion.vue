@@ -8,7 +8,9 @@
                 <p class="text-body-2 mb-8 text-white">
                     Can't find the answer your're looking for ? Please reach out to our friendly team.
                 </p>
-                <v-btn>Contact Us</v-btn>
+                <router-link to="/contact">
+                    <v-btn>Contact Us</v-btn>
+                </router-link>
             </div>
         </v-sheet>
     </v-container>

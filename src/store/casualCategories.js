@@ -15,7 +15,7 @@ export const useCategoriesStore = defineStore({
         async fetchCategories() {
             try {
                 const response = await axios.get(`${BASE_URL}/shared/get-categories`)
-                console.log('fetchCategories action ->', response.data)
+                // console.log('fetchCategories action ->', response.data)
                 this.categories = response.data
             } catch (e) {
                 console.error('Error fetching categories:', e)
